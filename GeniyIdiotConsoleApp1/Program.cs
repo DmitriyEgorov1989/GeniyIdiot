@@ -14,7 +14,6 @@ namespace GeniyIdiotConsoleApp
             questions[4] = "Пять свечей горело ,две потухли.Сколько свечей осталось?";
             return questions;
         }
-
         private static int[] GetAnswers(int questionsCount)
         {
             int[] answers = new int[questionsCount];
@@ -25,7 +24,6 @@ namespace GeniyIdiotConsoleApp
             answers[4] = 2;
             return answers;
         }
-
         private static string[] GetDiagnoses(int diagnosesCount)
         {
             string[] diagnosis = new string[diagnosesCount];
@@ -37,7 +35,6 @@ namespace GeniyIdiotConsoleApp
             diagnosis[5] = "Гений";
             return diagnosis;
         }
-
         private static void Shuffle(string[] questions, int[] answers)
         {
             Random random = new Random();
@@ -55,28 +52,23 @@ namespace GeniyIdiotConsoleApp
                 answers[randomIndex] = tempAnswer;
             }
         }
-
-        static bool RepeatQuestions() //Почитай про именование методов возвращающих bool. https://stepik.org/lesson/1308720/step/1?unit=1323829
+        private static bool RepeatQuestions() //Почитай про именование методов возвращающих bool. https://stepik.org/lesson/1308720/step/1?unit=1323829
         {
-            Console.WriteLine("Не хотите ли вы пройти тест снова?Ответьте Да или Нет!");
-            string userEndAnswer = Console.ReadLine().ToLower(); //End излишнее.
-			// else излишне, т.е. просто if и последний else вообще можно убрать. Вот тут подробнее https://stepik.org/lesson/1404526/step/1?unit=1421899
-            if (userEndAnswer == "да")
+            string userInput = "";
+
+            while (userInput != "да" && userInput != "нет")
+            {
+                Console.WriteLine("Не хотите ли вы пройти тест снова?Ответьте Да или Нет!");
+                userInput = Console.ReadLine().ToLower();
+            }
+            if (userInput == "да")
             {
                 return true;
             }
-             if (userEndAnswer == "нет") 
-            {
-                return false;
-            }
-           
-                Console.WriteLine("Не корректный ответ!Введите да или нет");
-
-                return RepeatQuestions(); // Вот так делать ненадо. лучше сделать перед условиями if цикл while(userEndAnswer != "да" && userEndAnswer != "нет"). 
-            }
+            return false;
+        }
         private static void Main(string[] args)
         {
-
             Console.WriteLine("Введите ваше имя!");
             string userName = Console.ReadLine();
 
@@ -85,9 +77,6 @@ namespace GeniyIdiotConsoleApp
             string[] questions = GetQuestions(questionsCount);
 
             int[] answers = GetAnswers(questionsCount);
-
-            
-
             do
             {
                 int counterRightAnswer = 0;
@@ -115,9 +104,8 @@ namespace GeniyIdiotConsoleApp
                 string[] diagnosis = GetDiagnoses(diagnosesCount);
 
                 Console.WriteLine(userName + ",ваш диагноз: " + diagnosis[counterRightAnswer]);
-
-
-            } while (RepeatQuestions()); //Смысла в переменной restart нет. Можно прям так while (AnswerRepeat())
+            
+            } while (RepeatQuestions());
         }
     }
 }
