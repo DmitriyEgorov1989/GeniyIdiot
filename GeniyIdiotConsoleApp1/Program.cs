@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace GeniyIdiotConsoleApp //Цифра в конце лишняя
+namespace GeniyIdiotConsoleApp
 {
     internal class Program
     {
@@ -28,7 +28,7 @@ namespace GeniyIdiotConsoleApp //Цифра в конце лишняя
 
         private static string[] GetDiagnoses(int diagnosesCount)
         {
-            string[] diagnosis = new string[diagnosesCount]; //Забыл использовать countDiagnoses
+            string[] diagnosis = new string[diagnosesCount];
             diagnosis[0] = "Идиот";
             diagnosis[1] = "Кретин";
             diagnosis[2] = "Дурак";
@@ -44,50 +44,49 @@ namespace GeniyIdiotConsoleApp //Цифра в конце лишняя
 
             for (int i = questions.Length - 1; i > 0; i--)
             {
-                int j = random.Next(i + 1); //Пожалуйста без сокращений и непонятных имён переменных. https://stepik.org/lesson/1304421/step/1?unit=1319339 и https://stepik.org/lesson/1304423/step/1?unit=1319341
+                int randomIndex = random.Next(i + 1); //j обычно используется во вложенных циклах. В данном случае лучше назвать переменную random, читаемость повысится.
 
                 string tempQuestion = questions[i];
-                questions[i] = questions[j];
-                questions[j] = tempQuestion;
+                questions[i] = questions[randomIndex];
+                questions[randomIndex] = tempQuestion;
 
                 int tempAnswer = answers[i];
-                answers[i] = answers[j];
-                answers[j] = tempAnswer;
+                answers[i] = answers[randomIndex];
+                answers[randomIndex] = tempAnswer;
             }
         }
-            static bool AnswerRepeat()
+
+        static bool RepeatQuestions() //Почитай про именование методов возвращающих bool. https://stepik.org/lesson/1308720/step/1?unit=1323829
         {
             Console.WriteLine("Не хотите ли вы пройти тест снова?Ответьте Да или Нет!");
-            string userEndAnswer = Console.ReadLine().ToLower();
-
+            string userEndAnswer = Console.ReadLine().ToLower(); //End излишнее.
+			// else излишне, т.е. просто if и последний else вообще можно убрать. Вот тут подробнее https://stepik.org/lesson/1404526/step/1?unit=1421899
             if (userEndAnswer == "да")
             {
                 return true;
             }
-            else if (userEndAnswer == "нет")
+             if (userEndAnswer == "нет") 
             {
                 return false;
             }
-            else
-            {
+           
                 Console.WriteLine("Не корректный ответ!Введите да или нет");
 
-                return AnswerRepeat();
+                return RepeatQuestions(); // Вот так делать ненадо. лучше сделать перед условиями if цикл while(userEndAnswer != "да" && userEndAnswer != "нет"). 
             }
-        }
         private static void Main(string[] args)
         {
 
             Console.WriteLine("Введите ваше имя!");
-            string userName = Console.ReadLine(); //userName, используем lowerCamelCase стиль. Про это тут https://stepik.org/lesson/1304421/step/1?unit=1319339
+            string userName = Console.ReadLine();
 
-            int questionsCount = 5; //Звучит как номер вопроса. Количество всегда обозначается словом count. т.е. questionsCount
+            int questionsCount = 5;
 
             string[] questions = GetQuestions(questionsCount);
 
             int[] answers = GetAnswers(questionsCount);
 
-            bool restart = true;
+            
 
             do
             {
@@ -111,16 +110,15 @@ namespace GeniyIdiotConsoleApp //Цифра в конце лишняя
                 }
                 Console.WriteLine("Количество правильных ответов: " + counterRightAnswer);
 
-                int diagnosesCount = 6; //Про наименования пременных можно посмотреть тут https://stepik.org/lesson/1304428/step/1?unit=1319346
+                int diagnosesCount = 6;
 
                 string[] diagnosis = GetDiagnoses(diagnosesCount);
 
                 Console.WriteLine(userName + ",ваш диагноз: " + diagnosis[counterRightAnswer]);
 
-                restart = AnswerRepeat();
 
-            } while (restart == true);
+            } while (RepeatQuestions()); //Смысла в переменной restart нет. Можно прям так while (AnswerRepeat())
         }
-    }               //А эта пустота зачем? Посомтри https://stepik.org/lesson/1308716/step/1?unit=1323825}
+    }
 }
 
