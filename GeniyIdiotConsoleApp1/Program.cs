@@ -41,7 +41,7 @@ namespace GeniyIdiotConsoleApp
 
             for (int i = questions.Length - 1; i > 0; i--)
             {
-                int randomIndex = random.Next(i + 1); //j обычно используется во вложенных циклах. В данном случае лучше назвать переменную random, читаемость повысится.
+                int randomIndex = random.Next(i + 1);
 
                 string tempQuestion = questions[i];
                 questions[i] = questions[randomIndex];
@@ -52,7 +52,7 @@ namespace GeniyIdiotConsoleApp
                 answers[randomIndex] = tempAnswer;
             }
         }
-        private static bool RepeatQuestions() //Почитай про именование методов возвращающих bool. https://stepik.org/lesson/1308720/step/1?unit=1323829
+        private static bool IsRepeat()
         {
             string userInput = "";
 
@@ -79,7 +79,7 @@ namespace GeniyIdiotConsoleApp
             int[] answers = GetAnswers(questionsCount);
             do
             {
-                int counterRightAnswer = 0;
+                int rightAnswerCount = 0;
 
                 Shuffle(questions, answers);
 
@@ -94,18 +94,18 @@ namespace GeniyIdiotConsoleApp
 
                     if (userAnswer == rightAnswer)
                     {
-                        counterRightAnswer++;
+                        rightAnswerCount++;
                     }
                 }
-                Console.WriteLine("Количество правильных ответов: " + counterRightAnswer);
+                Console.WriteLine("Количество правильных ответов: " + rightAnswerCount);
 
                 int diagnosesCount = 6;
 
                 string[] diagnosis = GetDiagnoses(diagnosesCount);
 
-                Console.WriteLine(userName + ",ваш диагноз: " + diagnosis[counterRightAnswer]);
-            
-            } while (RepeatQuestions());
+                Console.WriteLine(userName + ",ваш диагноз: " + diagnosis[rightAnswerCount]);
+
+            } while (IsRepeat());
         }
     }
 }
