@@ -7,7 +7,8 @@ namespace GeniyIdiotConsoleApp
         private static void Main(string[] args)
         {
             Console.WriteLine("Введите ваше имя!");
-            string userName = Console.ReadLine();
+
+            string userName = GetUserName();
 
             int questionsCount = 5;
 
@@ -36,13 +37,12 @@ namespace GeniyIdiotConsoleApp
                 }
                 Console.WriteLine("Количество правильных ответов: " + rightAnswerCount);
 
-                int diagnosesCount = 6;
-
                 string[] diagnosis = GetDiagnoses(diagnosesCount);
 
                 Console.WriteLine(userName + ",ваш диагноз: " + diagnosis[rightAnswerCount]);
 
             } while (IsRepeat());
+
         }
         private static string[] GetQuestions(int questionsCount)
         {
@@ -64,6 +64,28 @@ namespace GeniyIdiotConsoleApp
             answers[4] = 2;
             return answers;
         }
+        private static char nameChar;
+        static string GetUserName()
+        {
+            string rightUserName = "";
+
+            while (!char.IsLetter(nameChar))
+            {
+                rightUserName = Console.ReadLine();
+
+                for (int i = 0; i < rightUserName.Length; i++)
+                {
+                    nameChar = Convert.ToChar(rightUserName[i]);
+
+                    if (!char.IsLetter(nameChar))
+                    {
+                        Console.WriteLine("Повторите ввод!");
+                        break;
+                    }
+                }
+            }
+            return rightUserName;
+        }
         private static void Shuffle(string[] questions, int[] answers)
         {
             Random random = new Random();
@@ -81,8 +103,10 @@ namespace GeniyIdiotConsoleApp
                 answers[randomIndex] = tempAnswer;
             }
         }
+        private static int diagnosesCount;
         private static string[] GetDiagnoses(int diagnosesCount)
         {
+            diagnosesCount = 6;
             string[] diagnosis = new string[diagnosesCount];
             diagnosis[0] = "Идиот";
             diagnosis[1] = "Кретин";
@@ -109,4 +133,3 @@ namespace GeniyIdiotConsoleApp
         }
     }
 }
-
